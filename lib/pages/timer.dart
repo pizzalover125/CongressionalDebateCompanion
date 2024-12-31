@@ -23,32 +23,31 @@ class Timer extends StatelessWidget {
       body: Center(
         child: Text('Welcome to the Timer Page'),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 2,
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: 2,
+        destinations: const [
+          NavigationDestination(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.book),
             label: 'Resources',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.timer),
             label: 'Timer',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.abc),
             label: 'Dictionary',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.sports_kabaddi_outlined),
             label: 'Tournaments',
           ),
         ],
-        onTap: (index) {
+        onDestinationSelected: (index) {
           switch (index) {
             case 0:
               Navigator.push(
