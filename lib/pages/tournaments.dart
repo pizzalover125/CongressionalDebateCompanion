@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/dictionary.dart';
@@ -25,8 +25,12 @@ class _TournamentsState extends State<Tournaments> {
   }
 
   Future<void> _fetchTournaments() async {
-    final response = await http
-        .get(Uri.parse('https://api.tabroom.com/v1/public/invite/upcoming'));
+    final response = await http.get(
+        Uri.parse('https://api.tabroom.com/v1/public/invite/upcoming'),
+        headers: {
+          "Origin": "https://www.tabroom.com",
+          "Referer": "https://www.tabroom.com",
+        });
     if (response.statusCode == 200) {
       setState(() {
         _tournaments = jsonDecode(response.body);
@@ -58,13 +62,13 @@ class _TournamentsState extends State<Tournaments> {
                   final tournament = _tournaments[index];
                   return ListTile(
                     title: Text(tournament['name']),
-                    subtitle: Text(tournament['city'] +
-                        ', ' +
-                        tournament['state']), 
-                    trailing: Text(tournament['start']), 
-                    onTap: () {
-                      
-                    },
+                    subtitle: Text(
+                      (tournament['city'] ?? "No City") +
+                          ', ' +
+                          (tournament['state'] ?? "No State"),
+                    ),
+                    trailing: Text(tournament['start']),
+                    onTap: () {},
                   );
                 },
               ),
