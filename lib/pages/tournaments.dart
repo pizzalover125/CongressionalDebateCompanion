@@ -7,6 +7,7 @@ import 'package:myapp/pages/home.dart';
 import 'package:myapp/pages/guide.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
 class Tournaments extends StatefulWidget {
   const Tournaments({super.key});
@@ -63,12 +64,13 @@ class _TournamentsState extends State<Tournaments> {
                   return ListTile(
                     title: Text(tournament['name']),
                     subtitle: Text(
-                      (tournament['city'] ?? "No City") +
+                      (tournament['location'] ?? "No City") +
                           ', ' +
                           (tournament['state'] ?? "No State"),
                     ),
-                    trailing: Text(tournament['start']),
-                    onTap: () {},
+                    trailing: Text(tournament['start'].substring(0, 10)),
+                    onTap: () => launchUrl(Uri.parse(
+                    'https://www.tabroom.com/index/tourn/index.mhtml?tourn_id=${tournament['id']}')),
                   );
                 },
               ),
