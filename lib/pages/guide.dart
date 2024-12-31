@@ -19,42 +19,41 @@ class Guide extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: 1,
+        destinations: const [
+          NavigationDestination(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.book),
             label: 'Resources',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.timer),
             label: 'Timer',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.abc),
             label: 'Dictionary',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.sports_kabaddi_outlined),
             label: 'Tournaments',
           ),
         ],
-        onTap: (index) {
+        onDestinationSelected: (index) {
           switch (index) {
             case 0:
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Home()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Home()));
               break;
             case 1:
               break;
             case 2:
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Timer()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Timer()));
               break;
             case 3:
               Navigator.push(context,

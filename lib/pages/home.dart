@@ -41,42 +41,41 @@ class Home extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: 0,
+        destinations: const [
+          NavigationDestination(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.book),
             label: 'Resources',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.timer),
             label: 'Timer',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.abc),
             label: 'Dictionary',
           ),
-          BottomNavigationBarItem(
+          NavigationDestination(
             icon: Icon(Icons.sports_kabaddi_outlined),
             label: 'Tournaments',
           ),
         ],
-        onTap: (index) {
+        onDestinationSelected: (index) {
           switch (index) {
             case 0:
               break;
             case 1:
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Guide()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Guide()));
               break;
             case 2:
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => const Timer()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Timer()));
               break;
             case 3:
               Navigator.push(context,
