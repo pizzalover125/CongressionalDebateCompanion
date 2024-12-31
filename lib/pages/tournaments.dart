@@ -18,6 +18,7 @@ class Tournaments extends StatefulWidget {
 
 class _TournamentsState extends State<Tournaments> {
   List _tournaments = [];
+  String? _selectedState;
 
   @override
   void initState() {
@@ -43,8 +44,22 @@ class _TournamentsState extends State<Tournaments> {
     }
   }
 
+  List<String> getStates() {
+    return _tournaments
+        .map<String>((tournament) => tournament['state'] ?? "No State")
+        .toSet()
+        .toList()
+      ..sort();
+  }
+
   @override
   Widget build(BuildContext context) {
+    List filteredTournaments = _selectedState == null
+        ? _tournaments
+        : _tournaments
+            .where((tournament) => tournament['state'] == _selectedState)
+            .toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -54,26 +69,53 @@ class _TournamentsState extends State<Tournaments> {
           ),
         ),
       ),
-      body: Center(
-        child: _tournaments.isEmpty
-            ? CircularProgressIndicator()
-            : ListView.builder(
-                itemCount: _tournaments.length,
-                itemBuilder: (context, index) {
-                  final tournament = _tournaments[index];
-                  return ListTile(
-                    title: Text(tournament['name']),
-                    subtitle: Text(
-                      (tournament['location'] ?? "No City") +
-                          ', ' +
-                          (tournament['state'] ?? "No State"),
-                    ),
-                    trailing: Text(tournament['start'].substring(0, 10)),
-                    onTap: () => launchUrl(Uri.parse(
-                    'https://www.tabroom.com/index/tourn/index.mhtml?tourn_id=${tournament['id']}')),
-                  );
-                },
-              ),
+      body: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: DropdownButton<String>(
+              hint: Text("Select State"),
+              value: _selectedState,
+              items: getStates().map((String state) {
+                return DropdownMenuItem<String>(
+                  value: state,
+                  child: Text(state),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedState = newValue;
+                });
+              },
+              underline: SizedBox(),
+            ),
+          ),
+          Expanded(
+            child: _tournaments.isEmpty
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemCount: filteredTournaments.length,
+                    itemBuilder: (context, index) {
+                      final tournament = filteredTournaments[index];
+                      return ListTile(
+                        title: Text(tournament['name']),
+                        subtitle: Text(
+                          (tournament['location'] ?? "No City") +
+                              ', ' +
+                              (tournament['state'] ?? "No State"),
+                        ),
+                        trailing: Text(tournament['start'].substring(0, 10)),
+                        onTap: () => launchUrl(Uri.parse(
+                            'https://www.tabroom.com/index/tourn/index.mhtml?tourn_id=${tournament['id']}')),
+                      );
+                    },
+                  ),
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 4,
