@@ -41,6 +41,12 @@ dependencies:
   shared_preferences: ^2.3.4
   flutter_beep: ^1.0.0
   vibration: ^2.0.1
+  flutter_launcher_icons: ^0.14.2
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon.png"
   
 
 
