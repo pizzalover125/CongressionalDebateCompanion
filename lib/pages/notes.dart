@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/dictionary.dart';
-import 'package:myapp/pages/guide.dart';
-import 'package:myapp/pages/home.dart';
-import 'package:myapp/pages/timer.dart';
-import 'package:myapp/pages/tournaments.dart';
+import 'package:congressional_debate_companion/pages/dictionary.dart';
+import 'package:congressional_debate_companion/pages/guide.dart';
+import 'package:congressional_debate_companion/pages/home.dart';
+import 'package:congressional_debate_companion/pages/timer.dart';
+import 'package:congressional_debate_companion/pages/tournaments.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Notes extends StatefulWidget {

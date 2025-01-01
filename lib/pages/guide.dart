@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/dictionary.dart';
-import 'package:myapp/pages/timer.dart';
-import 'package:myapp/pages/tournaments.dart';
-import 'package:myapp/pages/home.dart';
-import 'package:myapp/pages/notes.dart';
+import 'package:congressional_debate_companion/pages/dictionary.dart';
+import 'package:congressional_debate_companion/pages/timer.dart';
+import 'package:congressional_debate_companion/pages/tournaments.dart';
+import 'package:congressional_debate_companion/pages/home.dart';
+import 'package:congressional_debate_companion/pages/notes.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Guide extends StatelessWidget {

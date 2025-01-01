@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:myapp/pages/timer.dart';
-import 'package:myapp/pages/tournaments.dart';
-import 'package:myapp/pages/home.dart';
-import 'package:myapp/pages/guide.dart';
-import 'package:myapp/pages/notes.dart';
+import 'package:congressional_debate_companion/pages/timer.dart';
+import 'package:congressional_debate_companion/pages/tournaments.dart';
+import 'package:congressional_debate_companion/pages/home.dart';
+import 'package:congressional_debate_companion/pages/guide.dart';
+import 'package:congressional_debate_companion/pages/notes.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
