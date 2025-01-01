@@ -5,6 +5,7 @@ import 'package:myapp/pages/timer.dart';
 import 'package:myapp/pages/tournaments.dart';
 import 'package:myapp/pages/home.dart';
 import 'package:myapp/pages/guide.dart';
+import 'package:myapp/pages/notes.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -120,23 +121,27 @@ class _DictionaryState extends State<Dictionary> {
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: '',
           ),
           NavigationDestination(
             icon: Icon(Icons.book),
-            label: 'Resources',
+            label: '',
           ),
           NavigationDestination(
             icon: Icon(Icons.timer),
-            label: 'Timer',
+            label: '',
           ),
           NavigationDestination(
             icon: Icon(Icons.abc),
-            label: 'Dictionary',
+            label: '',
           ),
           NavigationDestination(
             icon: Icon(Icons.sports_kabaddi_outlined),
-            label: 'Tournaments',
+            label: '',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.note),
+            label: '',
           ),
         ],
         onDestinationSelected: (index) {
@@ -158,6 +163,10 @@ class _DictionaryState extends State<Dictionary> {
             case 4:
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => Tournaments()));
+              break;
+            case 5:
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Notes()));
               break;
           }
         },

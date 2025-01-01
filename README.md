@@ -1,16 +1,16 @@
-# myapp
+# Congressional Debate Companion 
+Welcome to Congressional Debate Companion, your one-stop shop for all things Congressional Debate. This app provides resources, tools, and information to help you succeed in your next Congressional Debate tournament. 
 
-A new Flutter project.
+## Author Introduction
+Hey! I'm Aaradhya Panda (pizzalover125), and I built this application. Personally, I love coding and Congressional Debate. I've placed in several tournaments, my best performance being the Middle School Arizona Winter Cup @ BASIS Peoria, where I placed 5th in Congressional Debate. I'm building this app with features that I would personally use in my competitions. 
 
-## Getting Started
+## Feature Overfiew
+Here is an overview of each feature and how it will help Congressional Debate Competitors.
 
-This project is a starting point for a Flutter application.
+### Home
+This is a traditional home page, nothing much to see here.
 
-A few resources to get you started if this is your first Flutter project:
+### Resources
+If you're just getting started with anything in life, you need some good mentorship. Fourtanetly, I have hand-picked amazing guides for one to use in their Congressional Debate journey. 
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 

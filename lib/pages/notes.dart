@@ -1,49 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/pages/dictionary.dart';
 import 'package:myapp/pages/guide.dart';
+import 'package:myapp/pages/home.dart';
 import 'package:myapp/pages/timer.dart';
 import 'package:myapp/pages/tournaments.dart';
-import 'package:myapp/pages/notes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class Notes extends StatefulWidget {
+  const Notes({super.key});
+
+  @override
+  _NotesState createState() => _NotesState();
+}
+
+class _NotesState extends State<Notes> {
+  TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNote();
+  }
+
+  _loadNote() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _controller.text = (prefs.getString('note') ?? "");
+    });
+  }
+
+  _saveNote() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('note', _controller.text);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Home',
+          'Notes',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.gavel,
-              size: 100,
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Congressional Debate Companion',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Your one-stop shop for all things Congressional Debate. This app provides resources, tools, and information to help you succeed in your next tournament.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
+            Expanded(
+              child: TextField(
+                controller: _controller,
+                maxLines: null,
+                expands: true,
+                textAlign: TextAlign.start,
+                textAlignVertical: TextAlignVertical.top,
+                decoration: const InputDecoration(
+                  hintText: 'Enter your notes in chamber here...',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (text) {
+                  _saveNote();
+                },
+              ),
             ),
           ],
         ),
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: 0,
+        selectedIndex: 5,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home),
@@ -73,6 +99,8 @@ class Home extends StatelessWidget {
         onDestinationSelected: (index) {
           switch (index) {
             case 0:
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Home()));
               break;
             case 1:
               Navigator.push(context,
@@ -91,8 +119,6 @@ class Home extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const Tournaments()));
               break;
             case 5:
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Notes()));
               break;
           }
         },
