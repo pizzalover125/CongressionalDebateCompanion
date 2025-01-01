@@ -48,21 +48,23 @@ class _NotesState extends State<Notes> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          children: [
+            children: [
             Expanded(
               child: TextField(
-                controller: _controller,
-                maxLines: null,
-                expands: true,
-                textAlign: TextAlign.start,
-                textAlignVertical: TextAlignVertical.top,
-                decoration: const InputDecoration(
-                  hintText: 'Enter your notes in chamber here...',
-                  border: OutlineInputBorder(),
+              controller: _controller,
+              maxLines: null,
+              expands: true,
+              textAlign: TextAlign.start,
+              textAlignVertical: TextAlignVertical.top,
+              decoration: const InputDecoration(
+                hintText: 'Enter your notes in chamber here...',
+                border: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
                 ),
-                onChanged: (text) {
-                  _saveNote();
-                },
+              ),
+              onChanged: (text) {
+                _saveNote();
+              },
               ),
             ),
           ],

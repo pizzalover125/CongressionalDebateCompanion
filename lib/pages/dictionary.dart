@@ -111,7 +111,7 @@ class _DictionaryState extends State<Dictionary> {
               )
             else
               Text(
-                  'Enter a word to search. Tons of long, complicated words exist in the legal world, so this simple dictionary will help guide you through that mess.',
+                  'Enter a word to search.',
                   style: TextStyle(fontSize: 18)),
           ],
         ),

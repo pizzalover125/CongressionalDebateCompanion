@@ -9,6 +9,8 @@ import 'package:myapp/pages/notes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'dart:async' as async;
+import 'package:flutter_beep/flutter_beep.dart';
+import 'package:vibration/vibration.dart';
 
 class Timer extends StatefulWidget {
   const Timer({super.key});
@@ -62,6 +64,24 @@ class _TimerState extends State<Timer> {
     _timer = async.Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         _elapsedTime = DateTime.now().difference(_startTime!);
+        if (_elapsedTime.inSeconds == 120) {
+          FlutterBeep.beep();
+          Vibration.vibrate();
+        }
+        if (_elapsedTime.inSeconds == 150) {
+          FlutterBeep.beep();
+          FlutterBeep.beep();
+          Vibration.vibrate();
+          Vibration.vibrate();
+        }
+        if (_elapsedTime.inSeconds == 180) {
+          FlutterBeep.beep();
+          FlutterBeep.beep();
+          FlutterBeep.beep();
+          Vibration.vibrate();
+          Vibration.vibrate();
+          Vibration.vibrate();
+        }
       });
     });
   }
@@ -176,10 +196,22 @@ class _TimerState extends State<Timer> {
               children: [
                 ElevatedButton(
                   onPressed: _isTiming ? null : _startTiming,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    textStyle: TextStyle(fontSize: 18),
+                  ),
                   child: Text('Start'),
                 ),
                 ElevatedButton(
                   onPressed: _isTiming ? _stopTiming : null,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    textStyle: TextStyle(fontSize: 18),
+                  ),
                   child: Text('Stop'),
                 ),
               ],
@@ -191,7 +223,7 @@ class _TimerState extends State<Timer> {
                 itemBuilder: (context, index) {
                   return ListTile(
                     title: Text(_speechTimes[index]['name']),
-                    subtitle: Text('${_speechTimes[index]['time']} seconds'),
+                    subtitle: Text('${(_speechTimes[index]['time'] ~/ 60).toString().padLeft(2, '0')}:${(_speechTimes[index]['time'] % 60).toString().padLeft(2, '0')}'),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () => _deleteTime(index),
