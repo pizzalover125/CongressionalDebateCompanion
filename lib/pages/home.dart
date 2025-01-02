@@ -18,28 +18,37 @@ class Home extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        automaticallyImplyLeading: false,
       ),
-      body: const Padding(
+      body: const Center(
+        child: SingleChildScrollView(
+          child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Icon(
-              Icons.gavel,
-              size: 100,
+          Icons.gavel,
+          size: 100,
+          color: Colors.blue,
             ),
             SizedBox(height: 20),
             Text(
-              'Congressional Debate Companion',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          'Congressional Debate Companion',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
             Text(
-              'Your one-stop shop for all things Congressional Debate. This app provides resources, tools, and information to help you succeed in your next tournament.',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
+          'Your one-stop shop for all things Congressional Debate. This app provides resources, tools, and information to help you succeed in your next tournament.',
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 16),
             ),
+            SizedBox(height: 40),
           ],
+        ),
+          ),
         ),
       ),
       bottomNavigationBar: NavigationBar(
