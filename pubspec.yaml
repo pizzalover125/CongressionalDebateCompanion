@@ -13,8 +13,11 @@ dependencies:
   url_launcher: ^6.3.1
   shared_preferences: ^2.3.4
   flutter_beep: ^1.0.0
-  vibration: ^2.0.1
+  vibration: ^1.7.7 # Downgrade vibration
   flutter_launcher_icons: ^0.14.2
+  device_info_plus: ^5.0.0
+
+
 
 flutter_launcher_icons:
   android: true
@@ -75,3 +78,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+dependency_overrides:
+  win32: ^5.0.0  # Use the latest stable version that's compatible with Flutter
+
