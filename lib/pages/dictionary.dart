@@ -39,82 +39,93 @@ class _DictionaryState extends State<Dictionary> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Dictionary',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
+      title: Text(
+        'Dictionary',
+        style: TextStyle(
+        fontWeight: FontWeight.bold,
         ),
       ),
+      automaticallyImplyLeading: false,
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              style: TextStyle(color: Colors.black),
-              onChanged: (text) {
-                setState(() {
-                  _word = text;
-                });
-              },
-              decoration: InputDecoration(
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey,
-                ),
-                hintText: 'Enter Word',
-                hintStyle: TextStyle(color: Colors.grey),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                textStyle: TextStyle(fontSize: 18),
-              ),
-              onPressed: _getDefinition,
-              child: Text('Get Definition'),
-            ),
-            SizedBox(height: 20),
-            if (_wordData.isNotEmpty)
-              Expanded(
-                child: ListView(
-                  children: [
-                    ListTile(
-                      title: Text(
-                        _wordData['word'],
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    ..._wordData['meanings'].map((meaning) => ListTile(
-                          title: Text(
-                              '(${meaning['partOfSpeech']}) ${meaning['definitions'][0]['definition']}'),
-                          subtitle: meaning['definitions'][0]['example'] != null
-                              ? Text(
-                                  'Example: ${meaning['definitions'][0]['example']}')
-                              : null,
-                        )),
-                  ],
-                ),
-              )
-            else
-              Text(
-                  'Enter a word to search.',
-                  style: TextStyle(fontSize: 18)),
-          ],
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+        TextField(
+          style: TextStyle(color: Colors.black),
+          onChanged: (text) {
+          setState(() {
+            _word = text;
+          });
+          },
+          decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.search,
+            color: Colors.grey,
+          ),
+          hintText: 'Enter Word',
+          hintStyle: TextStyle(color: Colors.grey),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.0),
+            borderSide: BorderSide.none,
+          ),
+          ),
         ),
+        SizedBox(height: 20),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            textStyle: TextStyle(fontSize: 18),
+          ),
+          onPressed: _getDefinition,
+          child: Text('Get Definition'),
+          ),
+        ),
+        SizedBox(height: 20),
+        if (_wordData.isNotEmpty)
+          Expanded(
+          child: ListView(
+            children: [
+            Card(
+              elevation: 4,
+              margin: const EdgeInsets.symmetric(vertical: 8),
+              child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                ListTile(
+                  title: Text(
+                  _wordData['word'],
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  ),
+                ),
+                ..._wordData['meanings'].map((meaning) => ListTile(
+                    title: Text(
+                      '(${meaning['partOfSpeech']}) ${meaning['definitions'][0]['definition']}'),
+                    subtitle: meaning['definitions'][0]['example'] != null
+                      ? Text(
+                        'Example: ${meaning['definitions'][0]['example']}')
+                      : null,
+                  )),
+                ],
+              ),
+              ),
+            ),
+            ],
+          ),
+          )
+        ],
+      ),
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: 3,
