@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, library_private_types_in_public_api, prefer_final_fields
 
 import 'package:flutter/material.dart';
 import 'package:congressional_debate_companion/pages/dictionary.dart';
@@ -20,6 +20,7 @@ class Timer extends StatefulWidget {
 
 class _TimerState extends State<Timer> {
   TextEditingController _speechNameController = TextEditingController();
+  TextEditingController _speechDescriptionController = TextEditingController();
   List<Map<String, dynamic>> _speechTimes = [];
   bool _isTiming = false;
   DateTime? _startTime;
@@ -55,6 +56,13 @@ class _TimerState extends State<Timer> {
   }
 
   void _startTiming() {
+    if (_speechNameController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter a speech name')),
+      );
+      return;
+    }
+
     setState(() {
       _isTiming = true;
       _startTime = DateTime.now();
@@ -93,10 +101,14 @@ class _TimerState extends State<Timer> {
         _isTiming = false;
         _speechTimes.add({
           'name': _speechNameController.text,
+          'description': _speechDescriptionController.text,
           'time': _elapsedTime.inSeconds,
         });
+        _speechNameController.clear();
+        _speechDescriptionController.clear();
         _elapsedTime = Duration.zero;
         _saveSpeechTimes();
+        FocusScope.of(context).unfocus();
       });
     }
   }
@@ -113,11 +125,12 @@ class _TimerState extends State<Timer> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Speech Timer',
+          'Timer',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
         ),
+        automaticallyImplyLeading: false,
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: 2,
@@ -174,66 +187,78 @@ class _TimerState extends State<Timer> {
           }
         },
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
-              controller: _speechNameController,
-              decoration: InputDecoration(
-                labelText: 'Speech Name',
-                border: OutlineInputBorder(),
+            Card(
+              elevation: 4,
+              margin: EdgeInsets.symmetric(vertical: 16),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _speechNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Speech Name',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    TextField(
+                      controller: _speechDescriptionController,
+                      decoration: InputDecoration(
+                        labelText: 'Speech Description',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    SizedBox(height: 16),
+                    Text(
+                      'Time: ${_elapsedTime.inMinutes.toString().padLeft(2, '0')}:${(_elapsedTime.inSeconds % 60).toString().padLeft(2, '0')}',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 16),
             Text(
-              'Time: ${_elapsedTime.inMinutes.toString().padLeft(2, '0')}:${(_elapsedTime.inSeconds % 60).toString().padLeft(2, '0')}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              'Speech Times',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: _isTiming ? null : _startTiming,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    textStyle: TextStyle(fontSize: 18),
-                  ),
-                  child: Text('Start'),
-                ),
-                ElevatedButton(
-                  onPressed: _isTiming ? _stopTiming : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    foregroundColor: Colors.white,
-                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    textStyle: TextStyle(fontSize: 18),
-                  ),
-                  child: Text('Stop'),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _speechTimes.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: _speechTimes.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: EdgeInsets.symmetric(vertical: 8),
+                  child: ListTile(
                     title: Text(_speechTimes[index]['name']),
-                    subtitle: Text('${(_speechTimes[index]['time'] ~/ 60).toString().padLeft(2, '0')}:${(_speechTimes[index]['time'] % 60).toString().padLeft(2, '0')}'),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(_speechTimes[index]['description']),
+                        Text('${(_speechTimes[index]['time'] ~/ 60).toString().padLeft(2, '0')}:${(_speechTimes[index]['time'] % 60).toString().padLeft(2, '0')}'),
+                      ],
+                    ),
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () => _deleteTime(index),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _isTiming ? _stopTiming : _startTiming,
+        backgroundColor: Colors.white,
+        child: Icon(_isTiming ? Icons.stop : Icons.play_arrow),
       ),
     );
   }
