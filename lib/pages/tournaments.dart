@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:congressional_debate_companion/pages/dictionary.dart';
@@ -20,6 +20,7 @@ class Tournaments extends StatefulWidget {
 class _TournamentsState extends State<Tournaments> {
   List _tournaments = [];
   String? _selectedState;
+  String? _selectedMonth;
 
   @override
   void initState() {
@@ -53,13 +54,47 @@ class _TournamentsState extends State<Tournaments> {
       ..sort();
   }
 
+  List<String> getMonths() {
+    return [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+  }
+
+  String? getMonthNumber(String? monthName) {
+    if (monthName == null) return null;
+    final months = getMonths();
+    final index = months.indexOf(monthName);
+    return (index + 1).toString().padLeft(2, '0');
+  }
+
   @override
   Widget build(BuildContext context) {
-    List filteredTournaments = _selectedState == null
-        ? _tournaments
-        : _tournaments
-            .where((tournament) => tournament['state'] == _selectedState)
-            .toList();
+    List filteredTournaments = _tournaments;
+
+    if (_selectedState != null) {
+      filteredTournaments = filteredTournaments
+          .where((tournament) => tournament['state'] == _selectedState)
+          .toList();
+    }
+
+    if (_selectedMonth != null) {
+      final monthNumber = getMonthNumber(_selectedMonth);
+      filteredTournaments = filteredTournaments
+          .where((tournament) =>
+              tournament['start'].substring(5, 7) == monthNumber)
+          .toList();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -69,30 +104,65 @@ class _TournamentsState extends State<Tournaments> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             decoration: BoxDecoration(
-              color: Colors.white,
               borderRadius: BorderRadius.circular(5),
             ),
-            child: DropdownButton<String>(
-              hint: Text("Select State"),
-              value: _selectedState,
-              items: getStates().map((String state) {
-                return DropdownMenuItem<String>(
-                  value: state,
-                  child: Text(state),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedState = newValue;
-                });
-              },
-              underline: SizedBox(),
+            child: Row(
+              children: [
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    hint: Text("Select State"),
+                    value: _selectedState,
+                    items: getStates().map((String state) {
+                      return DropdownMenuItem<String>(
+                        value: state,
+                        child: Text(state),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedState = newValue;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(width: 10),
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    hint: Text("Select Month"),
+                    value: _selectedMonth,
+                    items: getMonths().map((String month) {
+                      return DropdownMenuItem<String>(
+                        value: month,
+                        child: Text(month),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedMonth = newValue;
+                      });
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(
