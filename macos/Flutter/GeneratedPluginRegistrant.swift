@@ -5,7 +5,7 @@
 import FlutterMacOS
 import Foundation
 
-import device_info_plus
+import device_info_plus_macos
 import shared_preferences_foundation
 import url_launcher_macos
 
